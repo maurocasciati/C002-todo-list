@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Task } from '../domain/task';
-import './Task.styles.css';
+import './TaskItem.styles.css';
 
 export const TaskComponent = ({ task }: { task: Task }) => {
   return (

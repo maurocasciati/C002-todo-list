@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Task } from '../domain/task';
 import { ListGroup } from 'react-bootstrap';
-import { TaskComponent } from './Task';
+import { TaskComponent } from './TaskItem';
 import './TaskList.styles.css';
+import { TaskDetailsComponent } from './TaskDetails';
 
 const mockData: Task[] = [
   {
@@ -40,11 +41,16 @@ const mockData: Task[] = [
 export const TaskListComponent = () => {
   const [taskList, setTaskList] = useState<Task[]>(mockData);
 
+  const addNewTask = (newTask: Task) => setTaskList([ newTask, ...taskList ]);
+
   return (
-    <ListGroup className={'List'}>
-      { taskList && taskList.map((task, index) => 
-        <ListGroup.Item action key={index}><TaskComponent task={task}/></ListGroup.Item>
-      )}
-    </ListGroup>
+    <>
+      <TaskDetailsComponent create={addNewTask} />
+      <ListGroup className={'List'}>
+        { taskList && taskList.map((task, index) => 
+          <ListGroup.Item action key={index}><TaskComponent task={task}/></ListGroup.Item>
+        )}
+      </ListGroup>
+    </>
   );
 }
