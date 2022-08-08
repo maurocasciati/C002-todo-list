@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Task } from '../domain/task';
-import { Col, FloatingLabel, Form, ListGroup, Row } from 'react-bootstrap';
+import { Col, Container, FloatingLabel, Form, FormLabel, ListGroup, Row } from 'react-bootstrap';
 import { TaskComponent } from './TaskItem';
-import './TaskList.styles.css';
 import { TaskDetailsComponent } from './TaskDetails';
 import { mockData } from '../utils/mocks';
 
@@ -14,6 +13,10 @@ export const TaskListComponent = () => {
   const [statusFilter, setStatusFilter] = useState<string>();
 
   const addNewTask = (newTask: Task) => setTaskList([ newTask, ...taskList ]);
+  const updateTask = (updatedTask: Task) =>
+    setTaskList(taskList.map((task) => task.name === updatedTask.name ? updatedTask : task));
+  const deleteTask = (taskToDelete: Task) =>
+    setTaskList(taskList.filter((task) => task.name !== taskToDelete.name));
 
   useEffect(() => {
     filterTasks();
@@ -26,15 +29,15 @@ export const TaskListComponent = () => {
     ));
 
   return (
-    <>
+    <Container className='p-5 mb-4 bg-light rounded-3'>
       <TaskDetailsComponent create={addNewTask} />
 
-      <Row className='Filters'>
-        <FloatingLabel as={Col} md='6' controlId='formName' label='Name:'>
+      <Row className='p-1 mb-4 bg-light rounded-3'>
+        <FloatingLabel as={Col} md='6' controlId='formName' label='Filter by name:'>
           <Form.Control type='text' value={titleFilter} onChange={(e) => setTitleFilter(e.target.value)}/>
         </FloatingLabel>
 
-        <FloatingLabel as={Col} md='3' controlId='formPriority' label='Priority:'>
+        <FloatingLabel as={Col} md='3' controlId='formPriority' label='Filter by priority:'>
           <Form.Select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
             <option value={undefined}></option>
             <option value='low'>Low</option>
@@ -43,7 +46,7 @@ export const TaskListComponent = () => {
           </Form.Select>
         </FloatingLabel>
 
-        <FloatingLabel as={Col} md='3' controlId='formStatus' label='Status:'>
+        <FloatingLabel as={Col} md='3' controlId='formStatus' label='Filter by status:'>
         <Form.Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
             <option value={undefined}></option>
             <option value='new'>New</option>
@@ -53,11 +56,13 @@ export const TaskListComponent = () => {
         </FloatingLabel>
       </Row>
 
-      <ListGroup className={'List'}>
+      <ListGroup className={'p-1 mb-4 bg-light rounded-3'}>
         { filteredTaskList && filteredTaskList.map((task, index) => 
-          <ListGroup.Item action key={index}><TaskComponent task={task}/></ListGroup.Item>
+          <ListGroup.Item action key={index}>
+            <TaskComponent task={task} update={updateTask} updateDelete={deleteTask}/>
+          </ListGroup.Item>
         )}
       </ListGroup>
-    </>
+    </Container>
   );
 }
