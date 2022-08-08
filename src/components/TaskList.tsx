@@ -4,39 +4,7 @@ import { Col, FloatingLabel, Form, ListGroup, Row } from 'react-bootstrap';
 import { TaskComponent } from './TaskItem';
 import './TaskList.styles.css';
 import { TaskDetailsComponent } from './TaskDetails';
-
-const mockData: Task[] = [
-  {
-    name: 'Terminar maquetado del TODO List',
-    description: 'Seguir codificando la aplicación react para terminar el requerimiento de COR',
-    status: 'done',
-    priority: 'high',
-  },
-  {
-    name: 'Agregar pantalla para crear tarea',
-    description: 'Agregar nuevo componente para crear una tarea nueva desde la UI',
-    status: 'inprogress',
-    priority: 'high',
-  },
-  {
-    name: 'Agregar Router',
-    description: 'Agregar react router para cambiar entre listado, detalle de tarea y crear tarea nueva',
-    status: 'new',
-    priority: 'medium',
-  },
-  {
-    name: 'Agregar Redux',
-    description: 'Usar redux para manejar estado global de tareas y modificarlo al crear una nueva tarea o actualizar el estado de una existente',
-    status: 'new',
-    priority: 'medium',
-  },
-  {
-    name: 'Agregar validaciones de formulario',
-    description: 'Usar react hook form para validar los datos ingresados al crear una tarea',
-    status: 'inprogress',
-    priority: 'low',
-  }
-]
+import { mockData } from '../utils/mocks';
 
 export const TaskListComponent = () => {
   const [taskList, setTaskList] = useState<Task[]>(mockData);
